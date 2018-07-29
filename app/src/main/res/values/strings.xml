@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">抖音插件</string>
+    <string name="phone_model">手机型号：</string>
+    <string name="system_version">系统版本：</string>
+    <string name="phoneMF">手机厂商：</string>
+    <string name="phone_imei">手机IMEI：</string>
+    <string name="phone_mac">MAC地址：</string>
+    <string name="software_group">软件开发交流群：312874694</string>
+    <string name="xposed_facebase">XPosed插件粉丝群：602321965</string>
+    <string name="loading_loading">加载中…</string>
+    <string name="aweme_version">抖音版本：</string>
+    <string name="town_version">插件版本：</string>
+    <string name="tis">提醒：请看第三卡片提示操作</string>
+    <string name="github">Github主页：Townwang</string>
+    <string name="blog">个人博客：https://townwang.com</string>
+    <string name="ali_pay">支付宝捐赠</string>
+    <string name="wechat_pay">微信捐赠</string>
+    <string name="law">注意：本软件仅供技术交流使用，请下载后二十四小时内删除。\n使用此软件产生法律责任由使用者自行负责！</string>
+    <string name="is_module">插件状态：</string>
+    <string name="switch_text">隐藏桌面快捷方式</string>
+</resources>
