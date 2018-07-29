@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.townwang.awemetown">
+    <!--网络-->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <application
+        android:name="com.townwang.awemetown.base.baseImpl.BaseApplication"
+        android:icon="@drawable/ic_logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true"/>
+
+        <meta-data
+            android:name="xposeddescription"
+            android:value="突破抖音上传15秒限制[有问题请在issues提交]"/>
+
+        <meta-data
+            android:name="xposedminversion"
+            android:value="53"/>
+        <activity android:name=".mvp.activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+        <activity-alias
+            android:name="com.townwang.awemetown.SettingsLauncher"
+            android:enabled="true"
+            android:targetActivity=".mvp.activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+    </application>
+
+</manifest>
