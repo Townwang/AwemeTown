@@ -4,13 +4,16 @@
  */
 package com.townwang.awemetown.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
+import com.townwang.awemetown.config.Config
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.ObjectOutputStream
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
+@SuppressLint("WrongConstant")
 /**
  * @author Town
  * @created at 2018/7/28 12:02
@@ -20,12 +23,10 @@ import kotlin.reflect.KProperty
  * @Remarks 委托储存
  */
 class Preference<T>(val context: Context, val string:String, val default : T) : ReadWriteProperty<Any?, T> {
-
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return findPreference(string, default)
     }
-
-    val prefs by lazy{context.getSharedPreferences("Realnen",Context.MODE_PRIVATE)}
+    val prefs by lazy{context.getSharedPreferences(Config.fileName,Context.MODE_PRIVATE)}
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
         putPreference(string, value)
@@ -50,6 +51,7 @@ class Preference<T>(val context: Context, val string:String, val default : T) : 
             is Float -> getFloat(name, default)
             else -> throw IllegalArgumentException("This type can not be saved")
         }
+        @Suppress("UNCHECKED_CAST")
         res as U
     }
 

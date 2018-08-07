@@ -10,8 +10,8 @@ android {
         applicationId "com.townwang.awemetown"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.0.1"
+        versionCode 4
+        versionName "1.0.2"
     }
     signingConfigs {
         config {
@@ -76,6 +76,7 @@ task launchVirtualXposedAPP(type: Exec) {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:27.1.1'
     //卡片布局

@@ -3,12 +3,13 @@
  * blog:https://www.townwang.com
  */
 package com.townwang.awemetown.hook
-import com.townwang.awemetown.base.HookImpl.HookImpl
-import com.townwang.awemetown.config.Config
+
+import android.content.Context
+import com.townwang.awemetown.base.baseImpl.BaseHook
+import com.townwang.awemetown.config.VConfig
 import com.townwang.awemetown.mvp.bean.HookBean
-import com.townwang.awemetown.utils.JsonUtils
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedBridge
+import com.townwang.awemetown.utils.VUtils
+import de.robv.android.xposed.XC_MethodReplacement
 
 /**
  * @author Town
@@ -19,27 +20,38 @@ import de.robv.android.xposed.XposedBridge
  * @Remarks  upload video
  */
 
-class UploadVideo:HookImpl(){
-    override fun initHookBean(): HookBean? {
-        return try {
-            val string = JsonUtils.loadJsonDatafromLocal(Config.folderName, Config.awemeTownName)
-            JsonUtils.stringToBean(string.toString(), HookBean::class.java)
-        }catch (e:Exception){
-            null
-        }
+object UploadVideo : BaseHook() {
+
+    fun start() {
+        initBean()
+        hookFunction()
     }
 
-    override fun hookFunction() {
-        findAndHookMethod( object : XC_MethodHook() {
-            @Throws(Throwable::class)
-            override fun afterHookedMethod(param: MethodHookParam?) {
-                super.afterHookedMethod(param)
-                try {
-                    param?.result = 59
-                }catch (e:Exception){
-                    XposedBridge.log("hook set value err")
-                }
+    override fun initBean(): HookBean {
+        bean = HookBean()
+        if (VUtils.getAwemeVersionCode() in 200..219) {
+            bean.configCode = VUtils.getAwemeVersionCode()
+            bean.className = VConfig.UPDATE_CLASS_NAME_200
+            bean.funName = VConfig.FUNC_NAME_I
+        } else {
+            bean.configCode = VUtils.getAwemeVersionCode()
+            bean.className = VConfig.UPDATE_CLASS_NAME_220
+            bean.funName = VConfig.FUNC_NAME_B
+        }
+        return bean
+    }
+
+    private fun hookFunction() {
+        try {
+            if (bean.configCode in 200..219) {
+                findAndHookMethod(XC_MethodReplacement.returnConstant(59))
+            } else {
+                findAndHookMethod(Context::class.javaObjectType, XC_MethodReplacement.returnConstant(250f))
             }
-        })
+        } catch (e: Throwable) {
+
+        } catch (e: Exception) {
+
+        }
     }
 }

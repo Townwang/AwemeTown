@@ -15,7 +15,5 @@ package com.townwang.awemetown.mvp.bean
 
 data class HookBean(
         var configCode: Int = 0,
-        var packageName: String = "com.townwang.awemetown",
-        var className: String = "com.townwang.awemetown.mvp.activity.MainActivity",
-        var AppFunName: String = "attach",
-        var funName: String = "l")
+        var className: String = "69A01F52F41B3F15A6D953823DA91D362436374D1CC6194465FBEBD552E065D0122E33704836AABC6CC95093775EA87B3277EE1016007357688066EB6B2D571F",
+        var funName: String = "4735688AF921EA3EDA096F26EDC4575C")

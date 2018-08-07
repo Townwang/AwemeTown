@@ -27,15 +27,10 @@ import io.reactivex.schedulers.Schedulers
  */
 
 class MainPresenter(view: MainContact.view) : BasePresenterImpl<MainContact.view>(view), MainContact.presenter {
-    //that a hook json
-    var jsonString: String? = null
-    // that a upload json
-    var jsonUpLoad: String? = null
-
     /**
      * check update
      */
-    override fun checkUpdate(awmeCode: Int, locationCode: Int) {
+    override fun checkUpdate() {
         if (view != null) {
             Api.getInstance().checkUpdate()
                     .subscribeOn(Schedulers.io())
@@ -51,29 +46,12 @@ class MainPresenter(view: MainContact.view) : BasePresenterImpl<MainContact.view
                             view?.setLoading("服务器正常", LoadType.SUCCESS)
                             if (it.versionCode <= view?.getVerCode()!!) {
                                 view?.setLoading("软件已经是最新版本", LoadType.SUCCESS)
-                                if (awmeCode != 0) {
-                                    if (locationCode == awmeCode) {
-                                        view?.setLoading("配置信息正常", LoadType.SUCCESS)
-                                        //成功
-                                        view?.setLoading("检测完毕，服务器环境正常", LoadType.SUCCESS)
-                                        jsonUpLoad = JsonUtils.beanToString(it)
-                                        view?.saveUpload()
-                                    } else {
-                                        jsonUpLoad = JsonUtils.beanToString(it)
-                                        view?.saveUpload()
-                                        view?.setLoading("正在获取适配版本", LoadType.ERROR)
-                                        getServerData(awmeCode)
-                                    }
-                                } else {
-                                    view?.setLoading("检测不到抖音版本", LoadType.ERROR)
-                                }
+                                view?.saveUpload()
                             } else {
                                 view?.setLoading("软件有更新，请点击下载", LoadType.SUCCESS)
                                 view?.setDownLoad(it.downloadUrl)
                             }
                         } else {
-                            jsonUpLoad = JsonUtils.beanToString(it)
-                            view?.saveUpload()
                             view?.setLoading("软件不可用，请联系开发者", LoadType.ERROR)
                         }
                     }, {
@@ -84,47 +62,6 @@ class MainPresenter(view: MainContact.view) : BasePresenterImpl<MainContact.view
                     })
 
         }
-    }
-
-    /**
-     * get server data
-     */
-    override fun getServerData(awemeVrsionCode: Int) {
-        if (view != null) {
-            Api.getInstance().getAwemeTown(awemeVrsionCode)
-                    .subscribeOn(Schedulers.io())
-                    .doOnSubscribe {
-                        addDisposable(it)
-                        view?.setLoading("正在下载适配数据...", LoadType.LOADING)
-                    }.map(Function<BaseBean<HookBean>, HookBean> {
-                        return@Function it.data
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        view?.setLoading("适配数据下载完成", LoadType.SUCCESS)
-                        jsonString = JsonUtils.beanToString(it)
-                        view?.saveData()
-                    }, {
-                        //失败 报错
-                        //成功
-                        view?.setLoading("未适配此版本或者网络错误", LoadType.ERROR)
-                        ExceptionHelper.handleException(it)
-                    })
-        }
-    }
-
-    /**
-     *  upload json
-     */
-    override fun jsonUpload(): String {
-        return jsonUpLoad.toString()
-    }
-
-    /**
-     * hook json
-     */
-    override fun jsonString(): String {
-        return jsonString.toString()
     }
 }
 

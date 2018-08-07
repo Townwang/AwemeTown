@@ -14,9 +14,7 @@ package com.townwang.awemetown.config
  */
 object Config{
 
-    val folderName = "Townwang"
+    val fileName = "Townwang"
 
-    val updateFileName = "update"
 
-    val awemeTownName = "awemetown"
 }

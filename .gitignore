@@ -3,6 +3,7 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+/app/src/main/java/com/townwang/awemetown/config/Config.kt
 .DS_Store
 /build
 /captures

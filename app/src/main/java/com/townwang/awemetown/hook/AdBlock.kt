@@ -3,9 +3,10 @@
  * blog:https://www.townwang.com
  */
 package com.townwang.awemetown.hook
-
-import com.townwang.awemetown.base.HookImpl.HookImpl
+import com.townwang.awemetown.base.baseImpl.BaseHook
+import com.townwang.awemetown.config.VConfig
 import com.townwang.awemetown.mvp.bean.HookBean
+import com.townwang.logutils.Log
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
@@ -17,30 +18,34 @@ import de.robv.android.xposed.XposedHelpers
  * @Last Modified time: 2018/7/26 11:30
  * @Remarks ad block
  */
-class AdBlock:HookImpl(){
-    override fun initHookBean(): HookBean? {
-        bean = HookBean()
-        bean?.packageName = "com.ss.android.ugc.aweme"
-        bean?.AppFunName = "attach"
-        bean?.className = "com.ss.android.ugc.aweme.feed.adapter.h"
-        bean?.funName = "a"
-        return bean
+object AdBlock: BaseHook(){
+
+    fun start() {
+        initBean()
+        hookFunction()
     }
 
-    override fun hookFunction() {
-
+    override fun initBean(): HookBean {
+        bean = HookBean()
+        bean.className = VConfig.ADBLOCK_CLASS_NAME
+        bean.funName = VConfig.FUNC_NAME_A
+        return bean
+    }
+    private fun hookFunction() {
         findAndHookMethod(List::class.java,object:XC_MethodHook() {
-            @Throws(Throwable::class)
-            override fun beforeHookedMethod(param: MethodHookParam?) {
-                super.beforeHookedMethod(param)
-                val list = param!!.args[0] as MutableList<*>
-                if (list.size > 0) {
-                    for (o in list) {
-                        val isAd = XposedHelpers.callMethod(o, "isAd") as Boolean
-                        if (isAd) {
-                            list.remove(o)
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                try {
+                        val list = param.args[0] as MutableList<*>
+                        if (list.size > 0) {
+                            for (o in list) {
+                                val isAd = XposedHelpers.callMethod(o, VConfig.FUNC_NAME_ISAD) as Boolean
+                                if (isAd) {
+                                    list.remove(o)
+                                }
+                            }
                         }
-                    }
+                }catch (e:Exception) {
+                    Log.e("adBlock err")
                 }
             }
         })

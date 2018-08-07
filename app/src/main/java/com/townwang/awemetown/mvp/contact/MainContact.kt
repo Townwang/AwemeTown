@@ -32,19 +32,7 @@ interface MainContact {
          */
         fun getVerCode(): Int
 
-        /**
-         * save data
-         */
-        fun saveData()
-
-        /**
-         * set download url
-         */
-        fun setDownLoad(url:String)
-
-        /**
-         * save update
-         */
+        fun setDownLoad(url: String)
         fun saveUpload()
     }
 
@@ -55,20 +43,6 @@ interface MainContact {
         /**
          * check update
          */
-        fun checkUpdate(awmeCode:Int,locationCode:Int)
-        /**
-         * get server data
-         */
-        fun getServerData(awemeVrsionCode:Int)
-
-        /**
-         * get hook json
-         */
-        fun jsonString(): String
-
-        /**
-         * get upload json
-         */
-        fun jsonUpload(): String
+        fun checkUpdate()
     }
 }
