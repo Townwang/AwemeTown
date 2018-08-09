@@ -19,17 +19,13 @@ import de.robv.android.xposed.XposedBridge
  * @Remarks (破解抖音新方案[尚未测试])
  */
 
-class DownLoadVideo: BaseHook(){
+object DownLoadVideo: BaseHook(){
     override fun initBean(): HookBean {
         bean = HookBean()
         bean.className = "com.ss.android.ugc.aweme.shortvideo.ce"
         bean.funName = "ce"
         return bean
     }
-//    override fun initHookBean(): HookBean? {
-//
-//    }
-
      fun hookFunction() {
         findAndHookMethod(Parcel::class.javaObjectType,object :XC_MethodHook(){
             override fun afterHookedMethod(param: MethodHookParam) {

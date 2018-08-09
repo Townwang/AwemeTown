@@ -7,6 +7,7 @@ package com.townwang.awemetown.utils.helper
 import android.annotation.SuppressLint
 import android.content.Context
 import com.townwang.awemetown.hook.AdBlock
+import com.townwang.awemetown.hook.DownLoadVideo
 import com.townwang.awemetown.hook.RecordVideo
 import com.townwang.awemetown.hook.UploadVideo
 import de.robv.android.xposed.XC_MethodHook
@@ -35,9 +36,10 @@ class HookHolder {
     }
 
     fun MainHook(){
-        AdBlock.start()
-        RecordVideo.start()
-        UploadVideo.start()
+//        DownLoadVideo.hookFunction()
+        AdBlock.hookFunction()
+        RecordVideo.hookFunction()
+        UploadVideo.hookFunction()
     }
 
 

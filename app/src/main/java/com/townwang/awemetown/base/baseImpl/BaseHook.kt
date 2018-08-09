@@ -21,8 +21,8 @@ import de.robv.android.xposed.XposedHelpers
 abstract class BaseHook{
     var bean: HookBean = initBean()
 
-    abstract fun initBean(): HookBean
 
+    abstract fun initBean(): HookBean
 
     fun loadClass():Class<*>{
       return  HookHolder.instance().context!!.classLoader.loadClass(bean.className)

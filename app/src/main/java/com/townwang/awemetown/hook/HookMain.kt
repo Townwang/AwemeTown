@@ -30,23 +30,26 @@ class HookMain : IXposedHookLoadPackage {
             if (lpparam.appInfo == null || lpparam.appInfo.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) !== 0) {
                 return
             } else if (lpparam.isFirstApplication and (VConfig.PACKAGE_NAME == lpparam.packageName)) {
-                HookContext.start()
+                HookContext.hookContext()
             }
 
             if (VConfig.MY_PACKAGE_NAME== lpparam.packageName) {
-                try {
-                    XposedHelpers.findAndHookMethod(Application::class.java, VConfig.FUNC_NAME_ATTACH, Context::class.java, object : XC_MethodHook() {
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            val context = (param.args[0] as Context)
-                            findAndHookMethod(VConfig.MY_CLASS_NAME, context.classLoader.loadClass(VConfig.MY_CLASS_NAME).classLoader,
-                                    VConfig.MY_FUNC_NAME_L, XC_MethodReplacement.returnConstant(true))
-                        }
-                    })
-                }catch (e:Throwable) {
-
-                }
-
+                sense()
             }
+
+        }
+    }
+
+    private fun sense() {
+        try {
+            XposedHelpers.findAndHookMethod(Application::class.java, VConfig.FUNC_NAME_ATTACH, Context::class.java, object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    val context = (param.args[0] as Context)
+                    findAndHookMethod(VConfig.MY_CLASS_NAME, context.classLoader.loadClass(VConfig.MY_CLASS_NAME).classLoader,
+                            VConfig.MY_FUNC_NAME_L, XC_MethodReplacement.returnConstant(true))
+                }
+            })
+        }catch (e:Throwable) {
 
         }
     }

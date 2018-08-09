@@ -21,11 +21,6 @@ import de.robv.android.xposed.XposedHelpers
  * @Remarks record a video
  */
 object RecordVideo : BaseHook() {
-    fun start() {
-        initBean()
-        hookFunction()
-    }
-
     override fun initBean(): HookBean {
         bean = HookBean()
         bean.className = VConfig.RECORD_CLASS_NAME
@@ -34,7 +29,7 @@ object RecordVideo : BaseHook() {
     }
 
 
-    private fun hookFunction() {
+     fun hookFunction() {
         try {
         findAndHookMethod(Bundle::class.javaObjectType, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
@@ -50,7 +45,7 @@ object RecordVideo : BaseHook() {
             }
         })
         }catch (e:Throwable){
-
+            Log.e("record a video Throwable err")
         }
     }
 

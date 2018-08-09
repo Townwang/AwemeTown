@@ -25,19 +25,13 @@ import java.lang.reflect.Method
  * @Remarks
  */
 object HookContext : BaseHook() {
-
-    fun start() {
-        initBean()
-        hookContext()
-    }
-
     override fun initBean(): HookBean {
         bean = HookBean()
         bean.className = VConfig.APPLICATION_CLASS_NAME
         bean.funName = VConfig.FUNC_NAME_ATTACH
         return bean
     }
-    private fun hookContext() {
+     fun hookContext() {
         try {
             XposedHelpers.findAndHookMethod(Application::class.java, bean.funName, Context::class.java, object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {

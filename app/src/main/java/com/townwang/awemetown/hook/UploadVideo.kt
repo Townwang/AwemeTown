@@ -5,11 +5,15 @@
 package com.townwang.awemetown.hook
 
 import android.content.Context
+import android.os.Bundle
 import com.townwang.awemetown.base.baseImpl.BaseHook
 import com.townwang.awemetown.config.VConfig
 import com.townwang.awemetown.mvp.bean.HookBean
 import com.townwang.awemetown.utils.VUtils
+import com.townwang.logutils.Log
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
+import de.robv.android.xposed.XposedBridge
 
 /**
  * @author Town
@@ -21,12 +25,6 @@ import de.robv.android.xposed.XC_MethodReplacement
  */
 
 object UploadVideo : BaseHook() {
-
-    fun start() {
-        initBean()
-        hookFunction()
-    }
-
     override fun initBean(): HookBean {
         bean = HookBean()
         if (VUtils.getAwemeVersionCode() in 200..219) {
@@ -41,7 +39,7 @@ object UploadVideo : BaseHook() {
         return bean
     }
 
-    private fun hookFunction() {
+     fun hookFunction() {
         try {
             if (bean.configCode in 200..219) {
                 findAndHookMethod(XC_MethodReplacement.returnConstant(59))
@@ -49,9 +47,7 @@ object UploadVideo : BaseHook() {
                 findAndHookMethod(Context::class.javaObjectType, XC_MethodReplacement.returnConstant(250f))
             }
         } catch (e: Throwable) {
-
-        } catch (e: Exception) {
-
+            Log.e("upload a video Throwable err")
         }
     }
 }
