@@ -17,7 +17,7 @@ import de.robv.android.xposed.XposedHelpers
  * @Last Modified by: Town
  * @Last Email: android@townwang.com
  * @Last Modified time: 2018/7/26 11:30
- * @Remarks ad block
+ * @Remarks ad block  
  */
 object AdBlock: BaseHook(){
     override fun initBean(): HookBean {
